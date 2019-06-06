@@ -15,14 +15,18 @@ class MainPresenter(private val view: MainContract.View):MainContract.Presenter 
             try {
                 val response = NetworkHelper.networkService(ConnectivityInterceptorImpl(view.getContext())).getUsers(since)
                 withContext(Dispatchers.Main){
-                    if (response.code() == 200)
+                    if (response.code() == 200) {
                         response.body()?.let { view.showUsrs(it) }
+                        view.showMessage(response.message())
+                    }
                     else
                         view.showMessage(response.message())
                 }
             }catch (e: NoConnectivityException){
                 Log.e("Connectivity", "No Internet Connection", e)
-                view.showMessage("No Internet Connection")
+                withContext(Dispatchers.Main){
+                    view.showMessage("No Internet Connection")
+                }
             }
         }
     }
