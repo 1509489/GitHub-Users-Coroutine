@@ -7,21 +7,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkHelper {
-    private fun interceptor():HttpLoggingInterceptor{
-        return HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
 
-    private fun okHttpClient(interceptor: HttpLoggingInterceptor):OkHttpClient{
-        return OkHttpClient.Builder()
+    fun networkService(connectivityInterceptor: ConnectivityInterceptor):NetworkService{
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(connectivityInterceptor)
             .build()
-    }
 
-    fun networkService():NetworkService{
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient(interceptor()))
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NetworkService::class.java)
