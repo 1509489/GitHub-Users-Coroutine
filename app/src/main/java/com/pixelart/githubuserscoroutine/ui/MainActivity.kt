@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.pixelart.githubuserscoroutine.R
 import com.pixelart.githubuserscoroutine.model.User
 
@@ -21,11 +22,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         presenter = MainPresenter(this)
         presenter.getUsers()
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
     }
 
     override fun getContext(): Context = this
@@ -35,7 +31,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

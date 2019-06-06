@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName
 data class User(
     val login: String,
     val id: Int,
-    @SerializedName("node_id")
-    val nodeId: String,
     @SerializedName("avatar_url")
-    val avatarUrl: String,
+    val avatarUrl: String
+    /*@SerializedName("node_id")
+    val nodeId: String,
     @SerializedName("gravatar_id")
     val gravatarId: String,
     val url: String,
@@ -35,5 +35,5 @@ data class User(
     val receivedEventsUrl: String,
     val type: String,
     @SerializedName("site_admin")
-    val siteAdmin: Boolean
+    val siteAdmin: Boolean*/
 )
